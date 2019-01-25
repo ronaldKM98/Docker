@@ -1,15 +1,15 @@
-const express = require('express');
-const exphbs = require('express-handlebars');
+const express = require('express'); // Framework
+const exphbs = require('express-handlebars'); // Template engine
 const path = require('path');
-const methodOverride = require('method-override');
-const session = require('express-session');
-const flash = require('connect-flash');
-const passport = require('passport');
+const methodOverride = require('method-override'); // Extends REST API
+const session = require('express-session'); // Authorization
+const flash = require('connect-flash'); // Inter-views messaging
+const passport = require('passport'); // Authentication
 
 // Initializations
-const app = express();
-require('./database');
-require('./config/passport');
+const app = express(); // Express
+require('./database'); // MongoDB
+require('./config/passport'); //Auntenticación
 
 // settings
 app.set('port', process.env.PORT || 4000);
@@ -23,8 +23,8 @@ app.engine('.hbs', exphbs({
 app.set('view engine', '.hbs');
 
 // middlewares
-app.use(express.urlencoded({extended: false}));
-app.use(methodOverride('_method'));
+app.use(express.urlencoded({extended: false})); 
+app.use(methodOverride('_method')); //Hidden inputs
 app.use(session({
   secret: 'secret',
   resave: true,

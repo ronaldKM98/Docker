@@ -23,6 +23,7 @@ passport.use(new LocalStrategy({
 
 }));
 
+// Session --  serializeUser(user, callback)
 passport.serializeUser((user, done) => {
   done(null, user.id);
 });

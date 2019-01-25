@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const passport = require('passport');
+const passport = require('passport'); // Authentication
 
 // Models
 const User = require('../models/User');
@@ -26,7 +26,7 @@ router.post('/users/signup', async (req, res) => {
       req.flash('error_msg', 'The Email is already in use.');
       res.redirect('/users/signup');
     } else {
-      // Saving a New User
+      // Saving a New User to 
       const newUser = new User({name, email, password});
       newUser.password = await newUser.encryptPassword(password);
       await newUser.save();

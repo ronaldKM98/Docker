@@ -1,5 +1,5 @@
 const express = require('express');
-const router = express.Router();
+const router = express.Router(); // Define server routes 
 
 router.get('/', (req, res) => {
   res.render('index');
