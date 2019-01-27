@@ -3,7 +3,11 @@
 // prompted by your browser. If you see the error "The Geolocation service
 // failed.", it means you probably did not give permission for the browser to
 // locate you.
+
 var map, infoWindow, watchID;
+var latArr = new Array();
+var lonArr = new Array();
+
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -34.397, lng: 150.644},
@@ -21,10 +25,13 @@ function record() {
             lng: position.coords.longitude
         };
 
-        var h = document.createElement("H5");
-        h.style.color = '#FFFFFF'
-        var text = document.createTextNode("Longitud : " + pos.lng + "Latitud" + pos.lat);
-        document.getElementById('container').appendChild(h.appendChild(text));
+        //var h = document.createElement("H5");
+        //h.style.color = '#FFFFFF'
+        //var text = document.createTextNode("Latitud" + pos.lat + "Longitud : " + pos.lng);
+        //document.getElementById('container').appendChild(h.appendChild(text));
+        console.log(pos.lat, pos.lng);
+        latArr.push(pos.lat);
+        lonArr.push(pos.lng);
 
         infoWindow.setPosition(pos);
         infoWindow.setContent('Location found.');
@@ -39,8 +46,10 @@ function record() {
     }
 }
 
-function stopRecord() {
+async function stopRecord() {
     navigator.geolocation.clearWatch(watchID);
+    document.getElementById('latArr').value = JSON.stringify(latArr);
+    document.getElementById('lonArr').value = JSON.stringify(lonArr);
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {

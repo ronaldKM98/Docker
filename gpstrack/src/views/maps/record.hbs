@@ -2,13 +2,16 @@
   
 </div>
 
-<div>
-    <button onclick="record()">Start record</button> 
-    <button onclick="stopRecord()">Stop record</button> 
-</div>
-
  <div id="container" class="col-sm-4 mb-3">
-      
+  <button class="btn btn-primary btn-block" onclick="record()">Start record</button> 
+  <button class="btn btn-primary btn-block" onclick="stopRecord()">Stop record</button>
+  <form action="/newroute" method="POST">  
+    <input type="hidden" id="latArr" name="latArr" value=""/>
+    <input type="hidden" id="lonArr" name="lonArr" value=""/>
+    <div class="form-group">
+     <button class="btn btn-primary btn-block" type="submit"> Save Route </button>
+    </div>
+  </form>
   </div>
 
 <script src="../../js/map.js"></script>
