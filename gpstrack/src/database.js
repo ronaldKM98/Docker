@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 mongoose.set('useFindAndModify', false);
-mongoose.connect('mongodb://localhost/node-notes-db', {
+mongoose.connect('mongodb://localhost/gpstrackdb', {
   useCreateIndex: true,
   useNewUrlParser: true
 })

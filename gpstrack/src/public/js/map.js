@@ -25,10 +25,10 @@ function record() {
             lng: position.coords.longitude
         };
 
-        //var h = document.createElement("H5");
-        //h.style.color = '#FFFFFF'
-        //var text = document.createTextNode("Latitud" + pos.lat + "Longitud : " + pos.lng);
-        //document.getElementById('container').appendChild(h.appendChild(text));
+        var h = document.createElement("H5");
+        h.style.color = '#FFFFFF'
+        var text = document.createTextNode("Latitud" + pos.lat + "Longitud : " + pos.lng);
+        document.getElementById('container').appendChild(h.appendChild(text));
         console.log(pos.lat, pos.lng);
         latArr.push(pos.lat);
         lonArr.push(pos.lng);

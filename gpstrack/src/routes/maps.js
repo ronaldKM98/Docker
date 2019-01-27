@@ -19,7 +19,7 @@ router.post('/newroute', isAuthenticated, async(req, res) => {
         lat: JSON.parse(req.body.latArr), lon: JSON.parse(req.body.lonArr)});
     await newRoute.save();
     req.flash('success_msg', 'Route Added Successfully');
-    res.redirect('/');
+    res.redirect('/routes');
 });
 
 //Show all routes
