@@ -1,0 +1,31 @@
+<div class="row">
+  {{#each routes}}
+  <div class="col-md-6 mb-3">
+    <div class="card" >
+      <div class="card-body">
+        <h5>Aqui ira un mapa</h5>
+        
+        <div class="col-md-6">
+            <p>Latitudes {{ lat }}</p>
+            <p>Longitudes {{ lon }}</p>
+            <p>Date {{ date }}</p>
+        </div>
+        
+        <!-- DELETE REQUEST -->
+        <form action="/routes/delete/{{_id}}?_method=DELETE" method="POST">
+          <input type="hidden" name="_method" value="DELETE">
+          <button type="submit" class="btn btn-danger btn-block btn-sm">Delete</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  {{else}}
+  <div class="card mx-auto">
+    <div class="card-body">
+      <h1>Hello {{user.name}}</h1>
+      <p clsss="lead">There are not Routes yet.</p>
+      <a href="/record" class="btn btn-success btn-block">Create One!</a>
+    </div>
+  </div>
+  {{/each}}
+</div>
