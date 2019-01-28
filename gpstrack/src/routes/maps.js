@@ -26,7 +26,6 @@ router.post('/newroute', isAuthenticated, async(req, res) => {
 router.get('/routes', isAuthenticated, async(req, res) => {
     const routes = await Route.find({
         user: req.user.id}).sort({date: 'desc'});
-        console.log(routes);
     res.render('maps/all-routes', {routes});
 });
 
