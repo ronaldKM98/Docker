@@ -1,7 +1,7 @@
 <!-- NAVIGATION BAR -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light" style="background-color: #ff6600;">
   <div class="container">
-    <a class="navbar-brand" href="/">GPS Track</a>
+    <a class="navbar-brand" href="/"><b>GPS Track</b></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -17,11 +17,13 @@
       <ul class="navbar-nav ml-auto">
         {{#if user}}
           <li class="nav-item">
-            <a class="nav-link" href="/routes">All Routes</a>
+            <a class="nav-link" href="/record">Record Now</a>
           </li>
+          
           <li class="nav-item">
-            <a class="nav-link" href="/record">Record</a>
+            <a class="nav-link" href="/routes">My Routes</a>
           </li>
+
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               {{user.name}} 
@@ -34,6 +36,7 @@
           <li class="nav-item">
             <a class="nav-link" href="/users/signin">Login</a>
           </li>
+          
           <li class="nav-item">
             <a class="nav-link" href="/users/signup">Register</a>
           </li>

@@ -38,11 +38,10 @@ var config = {
 };
 
 mongoose.set('useFindAndModify', false);
+//mongoose.connect('mongodb://localhost/gpstrackdb-development', {
 mongoose.connect('mongodb://mongo-server/gpstrackdb', {
   useCreateIndex: true,
   useNewUrlParser: true
 })
   .then(db => console.log('DB is connected'))
   .catch(err => console.error(err));
-
-module.exports = config[env];
