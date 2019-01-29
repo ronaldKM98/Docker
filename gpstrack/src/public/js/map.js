@@ -4,7 +4,7 @@
 // failed.", it means you probably did not give permission for the browser to
 // locate you.
 
-var map, infoWindow, watchID;
+var map, infoWindow, watchID, routeId;
 var latArr = new Array();
 var lonArr = new Array();
 
@@ -17,28 +17,38 @@ function initMap() {
 }
 
 function record() {
+    //Antes que nada debemos crear la Ruta en la base de datos
+    //y obtener su Id para poder asociar los puntos que van a ser recogidos
+    //document.forms["routeForm"].submit(); //Como recupero la respuesta de aqui para obtener el routeId ??? 
+    document.routeForm.submit();
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
         watchID = navigator.geolocation.watchPosition(function(position) {
-        var pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-        };
+            var pos = {
+                lat: position.coords.latitude,
+                lng: position.coords.longitude
+            };
 
-        var h = document.createElement("H5");
-        h.style.color = '#FFFFFF'
-        var text = document.createTextNode("Latitud" + pos.lat + "Longitud : " + pos.lng);
-        document.getElementById('container').appendChild(h.appendChild(text));
-        console.log(pos.lat, pos.lng);
-        latArr.push(pos.lat);
-        lonArr.push(pos.lng);
-
-        infoWindow.setPosition(pos);
-        infoWindow.setContent('Location found.');
-        infoWindow.open(map);
-        map.setCenter(pos);
+            //Aqui mostraremos el punto en el mapa
+            var h = document.createElement("H5");
+            h.style.color = '#FFFFFF'
+            var text = document.createTextNode("Latitud" + pos.lat + "Longitud : " + pos.lng);
+            document.getElementById('container').appendChild(h.appendChild(text));
+            
+            //Aqui guardamos el punto en la base de datos 
+            document.getElementById('lat').value = pos.lat;
+            document.getElementById('lon').value = pos.lng;
+            document.getElementById('routeId').value = routeId; //En realidad es routeId, OJO
+            //document.forms["pointForm"].submit(); //Como recarga la pagina, es mejor usar AJAX
+            document.getElementById('pointForm').submit(); //Necesita ser añadido con sockets
+            console.log(pos.lat, pos.lng);
+            
+            infoWindow.setPosition(pos);
+            infoWindow.setContent('Location found.');
+            infoWindow.open(map);
+            map.setCenter(pos);
         }, function() {
-        handleLocationError(true, infoWindow, map.getCenter());
+            handleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
         // Browser doesn't support Geolocation
@@ -48,8 +58,8 @@ function record() {
 
 async function stopRecord() {
     navigator.geolocation.clearWatch(watchID);
-    document.getElementById('latArr').value = JSON.stringify(latArr);
-    document.getElementById('lonArr').value = JSON.stringify(lonArr);
+    //document.forms["stopForm"].submit(); //No hay necesidad de AJAX porque redirije
+    document.stopForm.submit();
 }
 
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {

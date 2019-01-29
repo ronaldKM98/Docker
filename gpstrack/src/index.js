@@ -10,6 +10,13 @@ const passport = require('passport'); // Authentication
 const app = express(); // Express
 require('./database'); // MongoDB
 require('./config/passport'); //Auntenticación
+var http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+//Socket.io
+io.on('connection', function(socket){
+  console.log('a user connected to Socket');
+});
 
 // settings
 app.set('port', process.env.PORT || 4000);
@@ -48,6 +55,7 @@ app.use(require('./routes'));
 app.use(require('./routes/users'));
 app.use(require('./routes/notes'));
 app.use(require('./routes/maps'));
+app.use(require('./routes/points'));
 
 // static files
 app.use(express.static(path.join(__dirname, 'public')));

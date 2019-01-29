@@ -4,17 +4,21 @@
 
  <div id="container" class="col-sm-4 mb-3">
    
-
-  <button class="button button1 btn-block" onclick="record()">Start record</button> 
-  <button class="button button1 btn-block" onclick="stopRecord()">Stop record</button>
-  <form action="/newroute" method="POST">  
-    <input type="hidden" id="latArr" name="latArr" value=""/>
-    <input type="hidden" id="lonArr" name="lonArr" value=""/>
-    <div class="form-group">
-     <button class="button button1 btn-block" type="submit"> Save Route </button>
-    </div>
+   <!--- Create a new point in the database -->
+   <form action="/newpoint" method="POST" id="pointForm" name="pointForm">  
+    <input type="hidden" id="lat" name="lat" value=""/>
+    <input type="hidden" id="lon" name="lon" value=""/>
+    <input type="hidden" id="routeId" name="routeId" value=""/>
   </form>
-  </div>
+  
+  <form action="/newroute" method="POST" id="routeForm" name="routeForm">
+    <button class="button button1 btn-block" onclick="record()">Start record</button>
+  </form>
+  
+  <button class="button button1 btn-block" onclick="stopRecord()">Stop record</button>
+
+  <form action="/stop" method="POST" id="stopForm" name="stopForm"></form>
+</div>
 
 <script src="../../js/map.js"></script>
 

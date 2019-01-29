@@ -3,8 +3,6 @@ const { Schema } = mongoose;
 
 const RouteSchema = new Schema({
     user: {type: String},
-    lat: {type: Array},
-    lon: {type: Array},
     date: {type: Date, default: Date.now}
 });
 

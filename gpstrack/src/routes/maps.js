@@ -15,11 +15,10 @@ router.get('/record', isAuthenticated, async (req, res) => {
 
 //Save Route 
 router.post('/newroute', isAuthenticated, async(req, res) => {
-    const newRoute = new Route({user: req.user.id, 
-        lat: JSON.parse(req.body.latArr), lon: JSON.parse(req.body.lonArr)});
+    const newRoute = new Route({user: req.user.id});
     await newRoute.save();
+    //res.send(JSON.stringify(newRoute._id));
     req.flash('success_msg', 'Route Added Successfully');
-    res.redirect('/routes');
 });
 
 //Show all routes
@@ -33,6 +32,12 @@ router.get('/routes', isAuthenticated, async(req, res) => {
 router.delete('/routes/delete/:id', isAuthenticated, async(req, res) => {
     await Route.findByIdAndDelete(req.params.id);
     req.flash('success_msg', "Route deleted successfully");
+    res.redirect('/routes');
+});
+
+//When stop recording
+router.post('/stop', isAuthenticated, async(req, res) => {
+    req.flash('success_msg', "Route recorded successfully");
     res.redirect('/routes');
 });
 
