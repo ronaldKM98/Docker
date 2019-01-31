@@ -1,14 +1,14 @@
-
 // Note: This example requires that you consent to location sharing when
 // prompted by your browser. If you see the error "The Geolocation service
 // failed.", it means you probably did not give permission for the browser to
 // locate you.
 
-var map, infoWindow, watchID, routeId;
-var latArr = new Array();
-var lonArr = new Array();
+//Solo tengo que enviar el formulario de routeform con AJAX
+
+var map, infoWindow, watchID, routeId, io;
 
 function initMap() {
+    io = io.connect('http://localhost:4000');
     map = new google.maps.Map(document.getElementById('map'), {
         center: {lat: -34.397, lng: 150.644},
         zoom: 6
@@ -20,7 +20,15 @@ function record() {
     //Antes que nada debemos crear la Ruta en la base de datos
     //y obtener su Id para poder asociar los puntos que van a ser recogidos
     //document.forms["routeForm"].submit(); //Como recupero la respuesta de aqui para obtener el routeId ??? 
-    document.routeForm.submit();
+    document.getElementById("recordbtn").disabled = true;
+
+    io.emit('new route');
+
+    io.on('new route', function(route){
+        routeId = JSON.parse(route);
+        console.log("Route id is", route);
+    });
+
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
         watchID = navigator.geolocation.watchPosition(function(position) {
@@ -38,9 +46,10 @@ function record() {
             //Aqui guardamos el punto en la base de datos 
             document.getElementById('lat').value = pos.lat;
             document.getElementById('lon').value = pos.lng;
-            document.getElementById('routeId').value = routeId; //En realidad es routeId, OJO
+            document.getElementById('routeId').value = routeId;
             //document.forms["pointForm"].submit(); //Como recarga la pagina, es mejor usar AJAX
-            document.getElementById('pointForm').submit(); //Necesita ser añadido con sockets
+            //document.getElementById('pointForm').submit(); //Necesita ser añadido con sockets
+            io.emit('new point', {las: pos.lat, lon: pos.lon, routeId: routeId});
             console.log(pos.lat, pos.lng);
             
             infoWindow.setPosition(pos);

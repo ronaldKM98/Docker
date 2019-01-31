@@ -11,11 +11,17 @@ const app = express(); // Express
 require('./database'); // MongoDB
 require('./config/passport'); //Auntenticación
 var http = require('http').Server(app);
-const io = require('socket.io')(http);
+const io = require('socket.io').listen(http);
+
+
 
 //Socket.io
+io.set('origins', 'http://localhost:3000');
 io.on('connection', function(socket){
   console.log('a user connected to Socket');
+  socket.on('disconnect', function(){
+    console.log('user disconnected');
+  });
 });
 
 // settings
@@ -61,6 +67,8 @@ app.use(require('./routes/points'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Server is listening
-app.listen(app.get('port'), () => {
+http.listen(app.get('port'), () => {
   console.log('Server on port', app.get('port'));
 });
+
+module.exports = app;
