@@ -1,24 +1,13 @@
-<div id="map">
-  
-</div>
-
- <div id="container" class="col-sm-4 mb-3">
-   <!--- Create a new point in the database -->
-   <input type="hidden" id="user" name="user" value={{user}}>
-   <form action="/newpoint" method="POST" id="pointForm" name="pointForm">  
-    <input type="hidden" id="lat" name="lat" value=""/>
-    <input type="hidden" id="lon" name="lon" value=""/>
-    <input type="hidden" id="routeId" name="routeId" value=""/>
-  </form>
-  
-  
+<div id="container" class="col-sm-4 mb-3" >
+  <!--- Create a new point in the database -->
+  <input type="hidden" id="user" name="user" value={{user}}>
   <button class="button button1 btn-block" onclick="record()" id="recordbtn" >Start record</button>
-    
-  
   <button class="button button1 btn-block" onclick="stopRecord()">Stop record</button>
-
   <form action="/stop" method="POST" id="stopForm" name="stopForm"></form>
+<div id="map"></div>
 </div>
+
+
 
 <script src="../../js/map.js"></script>
 <script src="http://localhost:4000/socket.io/socket.io.js"></script>
@@ -26,4 +15,4 @@
 
 <script async defer
   src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiBf4m7ClP7aXF3MME0c1oo0nGMa336kM&callback=initMap">
-</script> 
+</script>

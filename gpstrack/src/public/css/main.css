@@ -56,3 +56,13 @@ body {
   height: 23px;
   padding: 0; 
 }
+
+#map {
+  height:500px;
+  width: 350%;
+}
+
+#map-canvas {
+  height: 100%;
+  width: 100%;
+}
