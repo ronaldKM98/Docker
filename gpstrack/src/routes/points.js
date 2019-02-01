@@ -14,7 +14,6 @@ const { isAuthenticated } = require('../helpers/auth');
 //Save point  Necesita ser implementado usando Socket
 io.on('connection', function(socket) {
     socket.on('new point', async function(data) {
-        console.log("Llegamos al server paso 2!!");
         const newPoint = new Point({route: data.routeId, lat: data.lat, lon: data.lon});
         await newPoint.save();
     });

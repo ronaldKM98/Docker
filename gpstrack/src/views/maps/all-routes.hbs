@@ -1,25 +1,26 @@
 <h5><b>{{user.name}}'s</b> personal routes</h5>
 <div class="row">
-  {{#each routes}}
-  <div class="col-md-6 mb-3">
-    <div class="card" >
-      <div class="card-body">
-        <h5>Aqui ira un mapa</h5>
-        
-        <div class="col-md-6">
-            <p>Latitudes {{ lat }}</p>
-            <p>Longitudes {{ lon }}</p>
-            <p>Date {{ date }}</p>
+  {{#each data}}
+    <div class="col-md-6 mb-3">
+      <div class="card" >
+        <div class="card-body">
+          <h5>Aqui ira un mapa</h5>
+          {{#each point}}
+            <div class="col-md-6">
+              <!-- Aqui creo dos columnas y en cada columna pongo lat y lon-->
+                <p>Latitudes {{ lat }}</p>
+                <p>Longitudes {{ lon }}</p>
+                <p>Date {{ date }}</p>
+            </div>
+          {{else}}
+          <!-- DELETE REQUEST -->
+          <form action="/routes/delete/{{_id}}?_method=DELETE" method="POST">
+            <input type="hidden" name="_method" value="DELETE">
+            <button type="submit" class="btn btn-danger btn-block btn-sm">Delete</button>
+          </form>
         </div>
-        
-        <!-- DELETE REQUEST -->
-        <form action="/routes/delete/{{_id}}?_method=DELETE" method="POST">
-          <input type="hidden" name="_method" value="DELETE">
-          <button type="submit" class="btn btn-danger btn-block btn-sm">Delete</button>
-        </form>
       </div>
     </div>
-  </div>
   {{else}}
   <div class="card mx-auto">
     <div class="card-body">
