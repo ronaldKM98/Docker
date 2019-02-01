@@ -5,12 +5,14 @@
 
 //Solo tengo que enviar el formulario de routeform con AJAX
 
-var map, infoWindow, watchID, routeId, io;
+var map, infoWindow, watchID, routeId, socket;
+var user = document.getElementById('user').value;
 
 function initMap() {
-    io = io.connect('http://localhost:4000');
+    //socket = io.connect('http://localhost:4000');
+    var socket = io();
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -34.397, lng: 150.644},
+        center: { lat: -34.397, lng: 150.644 },
         zoom: 6
     });
     infoWindow = new google.maps.InfoWindow;
@@ -22,16 +24,16 @@ function record() {
     //document.forms["routeForm"].submit(); //Como recupero la respuesta de aqui para obtener el routeId ??? 
     document.getElementById("recordbtn").disabled = true;
 
-    io.emit('new route');
-
-    io.on('new route', function(route){
+    var socket = io();
+    
+    socket.emit('new route', user);
+    socket.on('new route', function (route) {
         routeId = JSON.parse(route);
-        console.log("Route id is", route);
     });
 
     // Try HTML5 geolocation.
     if (navigator.geolocation) {
-        watchID = navigator.geolocation.watchPosition(function(position) {
+        watchID = navigator.geolocation.watchPosition(function (position) {
             var pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
@@ -42,21 +44,21 @@ function record() {
             h.style.color = '#FFFFFF'
             var text = document.createTextNode("Latitud" + pos.lat + "Longitud : " + pos.lng);
             document.getElementById('container').appendChild(h.appendChild(text));
-            
+
             //Aqui guardamos el punto en la base de datos 
             document.getElementById('lat').value = pos.lat;
             document.getElementById('lon').value = pos.lng;
             document.getElementById('routeId').value = routeId;
             //document.forms["pointForm"].submit(); //Como recarga la pagina, es mejor usar AJAX
             //document.getElementById('pointForm').submit(); //Necesita ser añadido con sockets
-            io.emit('new point', {las: pos.lat, lon: pos.lon, routeId: routeId});
-            console.log(pos.lat, pos.lng);
-            
+            socket.emit('new point', { lat: pos.lat, lon: pos.lng, routeId: routeId });
+            //console.log(pos.lat, pos.lng);
+
             infoWindow.setPosition(pos);
             infoWindow.setContent('Location found.');
             infoWindow.open(map);
             map.setCenter(pos);
-        }, function() {
+        }, function () {
             handleLocationError(true, infoWindow, map.getCenter());
         });
     } else {
@@ -74,7 +76,7 @@ async function stopRecord() {
 function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
-                            'Error: The Geolocation service failed.' :
-                            'Error: Your browser doesn\'t support geolocation.');
+        'Error: The Geolocation service failed.' :
+        'Error: Your browser doesn\'t support geolocation.');
     infoWindow.open(map);
 }
