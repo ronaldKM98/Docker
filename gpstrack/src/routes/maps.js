@@ -52,7 +52,7 @@ router.delete('/routes/delete/:id', isAuthenticated, async (req, res) => {
 
 //Show route
 router.get('/routes/see/:id', isAuthenticated, async (req, res) => {
-    var points = await Point.find({route: req.params.id});
+    var points = await Point.find({route: req.params.id}).sort({date: 'desc'});
     res.render('maps/see-route', {points: JSON.stringify(points)});
 });
 
