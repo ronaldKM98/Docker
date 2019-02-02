@@ -12,6 +12,10 @@ const Point = require('../models/Point');
 
 // Helpers
 const { isAuthenticated } = require('../helpers/auth');
+const googleMaps = require('@google/maps').createClient({
+    key: 'AIzaSyCiBf4m7ClP7aXF3MME0c1oo0nGMa336kM',
+    Promise: Promise
+});
 
 //New record
 router.get('/record', isAuthenticated, async (req, res) => {
@@ -33,12 +37,44 @@ router.get('/routes', isAuthenticated, async (req, res) => {
     const routes = await Route.find({ user: req.user.id })
         .sort({ date: 'desc' });
 
-    var data = [];
-    for(var i = 0; i < routes.length; i++) {
-        var points = await Point.find({route: routes[i].id}).sort({dat: 'desc'});
-        data[i] = points;
+    //Aqui calcular los geocodes para mandarlos al cliente ya calculados
+    var routesArr = []
+    for (var i = 0; i < routes.length; i++) {
+        var points = await Point.find({ route: routes[i].id }).sort({ dat: 'desc' });
+        if (points.length > 0) {
+            var start = await googleMaps.reverseGeocode({
+                latlng: [points[0].lat, points[0].lon],
+                language: 'en'
+            })
+                .asPromise()
+                .then((response) => {
+                    return response.json.results[0].formatted_address;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+            var end = await googleMaps.reverseGeocode({
+                latlng: [points[points.length - 1].lat, points[points.length - 1].lon],
+                language: 'en'
+            })
+                .asPromise()
+                .then((response) => {
+                    return response.json.results[0].formatted_address;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+
+            var route = {
+                id: routes[i].id,
+                date: routes[i].date,
+                start: start,
+                end: end
+            }
+            routesArr.push(route);
+        }
     }
-    res.render('maps/all-routes', { routes: routes});
+    res.render('maps/all-routes', { routes: routesArr });
 });
 
 //Delete
@@ -50,8 +86,8 @@ router.delete('/routes/delete/:id', isAuthenticated, async (req, res) => {
 
 //Show route
 router.get('/routes/see/:id', isAuthenticated, async (req, res) => {
-    var points = await Point.find({route: req.params.id}).sort({date: 'desc'});
-    res.render('maps/see-route', {points: JSON.stringify(points)});
+    var points = await Point.find({ route: req.params.id }).sort({ date: 'desc' });
+    res.render('maps/see-route', { points: JSON.stringify(points) });
 });
 
 //When stop recording
@@ -60,4 +96,11 @@ router.post('/stop', isAuthenticated, async (req, res) => {
     res.redirect('/routes');
 });
 
-module.exports = router; 
+module.exports = router;
+
+function expectOK(response) {
+    expect(response.status).toBe(200);
+    expect(response.json.status).toBe('OK');
+    return response;
+}
+

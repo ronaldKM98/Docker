@@ -4,12 +4,17 @@ function initMap() {
     var directionsService = new google.maps.DirectionsService;
     var directionsDisplay = new google.maps.DirectionsRenderer;
     map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 16
+        center: { lat: 6.201133854574852, lng: -75.57818224600679 },
+        zoom: 6
     });
     directionsDisplay.setMap(map);
 
     var waypoints = [];
+    var jump = 1;
+    if(points.length - 2 > 8) { //8 is the max google maps allowed waypoints
+        jump = Math.floor(points.length / 8);
+    }
+    console.log('jump', jump);
     for(var i = 1; i < points.length - 1; i++) {
         var location = new google.maps.LatLng(points[i].lat, points[i].lon); 
         waypoints.push({location: location, stopover: true});

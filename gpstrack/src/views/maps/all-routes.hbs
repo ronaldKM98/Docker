@@ -4,18 +4,18 @@
   <div class="col-md-6 mb-3">
     <div class="card">
       <div class="card-body">
-        <h5>Aqui irá un mapa</h5>
+        <h2>{{start}} -- {{end}}</h2>
         <div class="col-md-6">
-          <h5>{{date}}</h5>
+          <h6>{{date}}</h6>
         </div>
         <!-- DELETE REQUEST -->
         
-        <form action="/routes/delete/{{_id}}?_method=DELETE" method="POST">
+        <form action="/routes/delete/{{id}}?_method=DELETE" method="POST">
           <input type="hidden" name="_method" value="DELETE">
           <button type="submit" class="btn btn-danger btn-block btn-sm">Delete</button>
         </form>
         
-        <form action="/routes/see/{{_id}}" method="GET">
+        <form action="/routes/see/{{id}}" method="GET">
           <button type="submit" class="btn btn-success btn-block btn-sm">See Route</button>
         </form>
         

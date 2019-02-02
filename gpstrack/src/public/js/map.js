@@ -5,8 +5,8 @@ function initMap() {
     //socket = io.connect('http://localhost:4000');
     var socket = io();
     map = new google.maps.Map(document.getElementById('map'), {
-        center: { lat: -34.397, lng: 150.644 },
-        zoom: 16
+        center: { lat: 6.201133854574852, lng: -75.57818224600679 },
+        zoom: 6
     });
     infoWindow = new google.maps.InfoWindow;
 }
