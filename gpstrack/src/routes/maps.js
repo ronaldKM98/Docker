@@ -34,11 +34,9 @@ router.get('/routes', isAuthenticated, async (req, res) => {
         .sort({ date: 'desc' });
 
     var data = [];
-    var routeIds = [];
     for(var i = 0; i < routes.length; i++) {
         var points = await Point.find({route: routes[i].id}).sort({dat: 'desc'});
         data[i] = points;
-        routeIds[i] = points[0].route;
     }
     res.render('maps/all-routes', { routes: routes});
 });
