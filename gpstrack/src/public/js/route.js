@@ -11,11 +11,12 @@ function initMap() {
 
     var waypoints = [];
     var jump = 1;
+    console.log('points length', points.length);
     if(points.length - 2 > 8) { //8 is the max google maps allowed waypoints
-        jump = Math.floor(points.length / 8);
+        jump = Math.floor((points.length - 2) / 8);
     }
     console.log('jump', jump);
-    for(var i = 1; i < points.length - 1; i++) {
+    for(var i = 1; i < points.length - 1; i = i + jump) {
         var location = new google.maps.LatLng(points[i].lat, points[i].lon); 
         waypoints.push({location: location, stopover: true});
     };
