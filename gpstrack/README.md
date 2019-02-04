@@ -136,7 +136,6 @@ $docker-compose up -d
 * **Ronald Cardona Martínez**
 
 ## Screenshots
+![](docs/map.png)
 ![](docs/login.png)
 ![](docs/tasks.png)
-
-
