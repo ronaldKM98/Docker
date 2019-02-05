@@ -13,7 +13,7 @@ services:
       - nodeapp
   nodeapp:
     container_name: nodeapp
-    image: ronaldkm98/telematica:0.2.3
+    image: ronaldkm98/telematica:0.2.4
     restart: always
     build: .
     ports:
