@@ -74,14 +74,18 @@ router.post('/share/:id', isAuthenticated, async (req, res) => {
 //Get all shared routes
 router.get('/shared', isAuthenticated, async (req, res) => {
     var routesIds = await SharedRoute.find().sort({ date: 'desc' });
-    var routes = new Array();
-
-    routesIds.forEach(async function (routeId) {
-        var route = await Route.find({ _id: routeId.routeId });
+    var routes = []
+    for(var i = 0; i < routesIds.length; i++) {
+        var route = await Route.find({_id: routesIds[i].routeId});
         routes.push(route);
-    });
-    console.log(routes);
-    var routesArr = await geocode(routes);
+    }
+    
+    var newArr = []
+    for(var i = 0; i < routes.length; i++) {
+        newArr = newArr.concat(routes[i]);
+    }
+
+    var routesArr = await geocode(newArr);
 
     res.render('maps/shared', { routes: routesArr });
 });
@@ -115,7 +119,7 @@ async function geocode(routes) {
                 });
 
             var route = {
-                id: routes[i].id,
+                id: routes[i]._id,
                 date: routes[i].date,
                 start: start,
                 end: end
