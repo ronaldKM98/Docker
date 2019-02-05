@@ -1,10 +1,20 @@
-<div id="container" class="col-sm-4 mb-3" >
+<div id="map_canvas">
+  <div id="map"></div>
+</div>
+
+<div id="menu" class="col-md-2 mb-3">
   <!--- Create a new point in the database -->
   <input type="hidden" id="user" name="user" value={{user}}>
-  <button class="button button1 btn-block" onclick="record()" id="recordbtn" >Start record</button>
-  <button class="button button1 btn-block" onclick="stopRecord()">Stop record</button>
+  <button class="button button1" onclick="record()" id="recordbtn">Start record</button>
+  <button class="button button1" onclick="stopRecord()">Stop record</button>
+  <button class="button button1" onclick="goBack()">Go Back</button>
+
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
   <form action="/stop" method="POST" id="stopForm" name="stopForm"></form>
-<div id="map"></div>
 </div>
 
 
@@ -13,6 +23,5 @@
 <script src="/socket.io/socket.io.js"></script>
 <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
 
-<script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiBf4m7ClP7aXF3MME0c1oo0nGMa336kM&callback=initMap">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiBf4m7ClP7aXF3MME0c1oo0nGMa336kM&callback=initMap">
 </script>

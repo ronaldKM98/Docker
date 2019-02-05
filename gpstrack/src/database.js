@@ -39,7 +39,7 @@ var config = {
 
 mongoose.set('useFindAndModify', false);
 mongoose.connect('mongodb://localhost/gpstrackdb-development', {
-mongoose.connect('mongodb://mongo-server/gpstrackdb', {
+//mongoose.connect('mongodb://mongo-server/gpstrackdb', {
   useCreateIndex: true,
   useNewUrlParser: true
 })

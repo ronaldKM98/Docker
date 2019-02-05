@@ -1,12 +1,17 @@
-<div id="container" class="col-sm-4 mb-3" >
-    <div id="map" style="map-canvas"></div>
-</div>
+<div id="map"></div>
+<div id="menu" class="col-md-2 mb-3">
+  <button class="button button1" onclick="goBack()">Go Back</button>
 
-<div id="container" class="col-sm-4 mb-3" >
-    <input value="{{points}}" type="hidden" id="points" name="points">
+  <script>
+    function goBack() {
+      window.history.back();
+    }
+  </script>
+</div>
+<div id="container" class="col-sm-4 mb-3">
+  <input value="{{points}}" type="hidden" id="points" name="points">
 </div>
 <script src="../../js/route.js"></script>
 
-<script async defer
-  src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiBf4m7ClP7aXF3MME0c1oo0nGMa336kM&callback=initMap">
+<script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCiBf4m7ClP7aXF3MME0c1oo0nGMa336kM&callback=initMap">
 </script>

@@ -9,6 +9,7 @@ var io = require('../index');
 // Models
 const Route = require('../models/Route');
 const Point = require('../models/Point');
+const SharedRoute = require('../models/SharedRoute');
 
 // Helpers
 const { isAuthenticated } = require('../helpers/auth');
@@ -39,6 +40,54 @@ router.get('/routes', isAuthenticated, async (req, res) => {
 
     //Aqui calcular los geocodes para mandarlos al cliente ya calculados
     var routesArr = []
+    routesArr = await geocode(routes);
+    res.render('maps/all-routes', { routes: routesArr });
+});
+
+//Delete
+router.delete('/routes/delete/:id', isAuthenticated, async (req, res) => {
+    await Route.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', "Route deleted successfully");
+    res.redirect('/routes');
+});
+
+//Show route
+router.get('/routes/see/:id', isAuthenticated, async (req, res) => {
+    var points = await Point.find({ route: req.params.id }).sort({ date: 'desc' });
+    res.render('maps/see-route', { points: JSON.stringify(points) });
+});
+
+//When stop recording
+router.post('/stop', isAuthenticated, async (req, res) => {
+    req.flash('success_msg', "Route recorded successfully");
+    res.redirect('/routes');
+});
+
+//Save shared Route
+router.post('/share/:id', isAuthenticated, async (req, res) => {
+    const route = new SharedRoute({ routeId: req.params.id });
+    await route.save();
+    req.flash('success_msg', 'Route shared successfully');
+    res.redirect('/routes');
+});
+
+//Get all shared routes
+router.get('/shared', isAuthenticated, async (req, res) => {
+    var routesIds = await SharedRoute.find().sort({ date: 'desc' });
+    var routes = new Array();
+
+    routesIds.forEach(async function (routeId) {
+        var route = await Route.find({ _id: routeId.routeId });
+        routes.push(route);
+    });
+    console.log(routes);
+    var routesArr = await geocode(routes);
+
+    res.render('maps/shared', { routes: routesArr });
+});
+
+async function geocode(routes) {
+    var routesArr = [];
     for (var i = 0; i < routes.length; i++) {
         var points = await Point.find({ route: routes[i].id }).sort({ dat: 'desc' });
         if (points.length > 0) {
@@ -74,33 +123,7 @@ router.get('/routes', isAuthenticated, async (req, res) => {
             routesArr.push(route);
         }
     }
-    res.render('maps/all-routes', { routes: routesArr });
-});
-
-//Delete
-router.delete('/routes/delete/:id', isAuthenticated, async (req, res) => {
-    await Route.findByIdAndDelete(req.params.id);
-    req.flash('success_msg', "Route deleted successfully");
-    res.redirect('/routes');
-});
-
-//Show route
-router.get('/routes/see/:id', isAuthenticated, async (req, res) => {
-    var points = await Point.find({ route: req.params.id }).sort({ date: 'desc' });
-    res.render('maps/see-route', { points: JSON.stringify(points) });
-});
-
-//When stop recording
-router.post('/stop', isAuthenticated, async (req, res) => {
-    req.flash('success_msg', "Route recorded successfully");
-    res.redirect('/routes');
-});
-
-module.exports = router;
-
-function expectOK(response) {
-    expect(response.status).toBe(200);
-    expect(response.json.status).toBe('OK');
-    return response;
+    return routesArr;
 }
 
+module.exports = router;
