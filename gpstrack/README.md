@@ -1,6 +1,6 @@
 # GPS Track with Node, Mongodb
 This is a basic App to monitor and save GPS routes from a mobile device.
-This app can*:
+This app can:
 - Record a route from a mobile device in real time
 - Share/see/delete routes
 - Allows a user to log in and save his personal routes
@@ -15,27 +15,8 @@ To run this project locally you must have installed,
 * [mongodb](https://docs.mongodb.com/manual/installation/)
 
 ## Design
-
-### Models
-Everything is stored in Javascript Schema objects, for example this is the User's model
-```
-const UserSchema = new Schema({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  password: { type: String, required: true },
-  date: { type: Date, default: Date.now }
-});
-```
-
-Then objects are represented in the Javascript Object Notation: 
-```
- {
-    name: String,
-    email: Number,
-    password: Number,
-    date: { type: Date, default: Date.now},
- }
-```
+* Diagrama de despliegue.
+![](docs/despliegue.png)
 
 ## Installing
 
@@ -93,12 +74,12 @@ By now we don't have implemented automated tests but you can visit http://localh
 ## Deployment
 There are already running instances of GPSTrack live at EAFIT University's DCA and an Amazon Web Services EC2 Virtual Machine.
 * [EAFIT University's DCA Testing Enviroment](https://rcardo11.dis.eafit.edu.co/) -- In this case and by the moment you should trust the certificate warning that your browser is going to pop up.
-* [AWS EC2 Production Enviroment](ec2-54-210-60-82.compute-1.amazonaws.com)
+* [AWS EC2 Production Enviroment](https://ec2-3-92-40-246.compute-1.amazonaws.com)
 
 ## Deploy your own instance using Docker
 First of all you'll need to setup a new virtual machine in AWS by following the instructions in this [video](https://drive.google.com/file/d/1ITGHTak0gdUv3m1izGxQM0eNpNmvvNuU/view).
 
-[Docker](https://www.docker.com/) is a container manager that among other things, allows you to migrate apps easily. Because of Docker portability the deployment steps are almost the same in DCA and AWS. Fortunately we have all settled up in the docker-compose file that you should see in the project's root directory, and all you've got to do is: 
+[Docker](https://www.docker.com/) is an enterprise container platform that among other things, allows you to migrate apps easily. Because of Docker portability the deployment steps are almost the same in DCA and AWS. Fortunately we have all settled up in the docker-compose file that you should see in the project's root directory, and all you've got to do is: 
 * [Install Docker CE](https://docs.docker.com/install/) by following the instructions for your current system.
 * Get docker-compose
 ```
@@ -128,11 +109,11 @@ $docker-compose up -d
 * Go to localhost:4000 to check.
 
 ### Obtain a domain for the App.
-In this step we are going to assign a meaningul domain name to our app, so that we can access it via [ec2-3-92-40-246.compute-1.amazonaws.com](ec2-3-92-40-246.compute-1.amazonaws.com) or via a dedicated domain like [myapp.com](myapp.com). To do this we are going to obtain a free domain from [dot.tk](dot.tk) and map that name to our public ip address from AWS.
+In this step we are going to assign a meaningul domain name to our app, so that we can access it via [ec2-3-92-40-246.compute-1.amazonaws.com](https://ec2-3-92-40-246.compute-1.amazonaws.com) or via a dedicated domain like [wazedepobre.com](https://wazedepobre.tk). To do this we are going to obtain a free domain from [dot.tk](http://dot.tk) and map that name to our public ip address from AWS.
 
-* Go to [dot.tk](dot.tk) or your favorite domain name provider and obtain a domain name of your preference.
+* Go to [dot.tk](http://dot.tk) or your favorite domain name provider and obtain a domain name of your preference.
 * Then go to your AWS console and select the VM where your dockerized app is running and from the description tab copy the IPv4 Public IP.
-* In the [domain provider's config site] (https://my.freenom.com/clientarea.php?action=products) select your app's domain and click manage domain.
+* In the [domain provider's config site](https://my.freenom.com/clientarea.php?action=products) select your app's domain and click manage domain.
 * In the two boxes below paste you IPv4 Public IP and click save.
 * Wait a moment and access your domain from a web browser and it should redirect to your AWS web server.
 
