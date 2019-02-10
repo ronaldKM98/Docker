@@ -9,3 +9,4 @@ k8s/volumeclaim.yml
 k8s/storageclass.yml
 data/
 data/.data
+../.DS_Store
