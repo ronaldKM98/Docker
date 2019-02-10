@@ -96,6 +96,8 @@ There are already running instances of GPSTrack live at EAFIT University's DCA a
 * [AWS EC2 Production Enviroment](ec2-54-210-60-82.compute-1.amazonaws.com)
 
 ## Deploy your own instance using Docker
+First of all you'll need to setup a new virtual machine in AWS by following the instructions in this [video](https://drive.google.com/file/d/1ITGHTak0gdUv3m1izGxQM0eNpNmvvNuU/view).
+
 [Docker](https://www.docker.com/) is a container manager that among other things, allows you to migrate apps easily. Because of Docker portability the deployment steps are almost the same in DCA and AWS. Fortunately we have all settled up in the docker-compose file that you should see in the project's root directory, and all you've got to do is: 
 * [Install Docker CE](https://docs.docker.com/install/) by following the instructions for your current system.
 * Get docker-compose
@@ -124,6 +126,15 @@ $docker-compose build
 $docker-compose up -d
 ```
 * Go to localhost:4000 to check.
+
+### Obtain a domain for the App.
+In this step we are going to assign a meaningul domain name to our app, so that we can access it via [ec2-3-92-40-246.compute-1.amazonaws.com](ec2-3-92-40-246.compute-1.amazonaws.com) or via a dedicated domain like [myapp.com](myapp.com). To do this we are going to obtain a free domain from [dot.tk](dot.tk) and map that name to our public ip address from AWS.
+
+* Go to [dot.tk](dot.tk) or your favorite domain name provider and obtain a domain name of your preference.
+* Then go to your AWS console and select the VM where your dockerized app is running and from the description tab copy the IPv4 Public IP.
+* In the [domain provider's config site] (https://my.freenom.com/clientarea.php?action=products) select your app's domain and click manage domain.
+* In the two boxes below paste you IPv4 Public IP and click save.
+* Wait a moment and access your domain from a web browser and it should redirect to your AWS web server.
 
 ## Built With
 
